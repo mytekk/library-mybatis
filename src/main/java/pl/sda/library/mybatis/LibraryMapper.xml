@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//pl.sda.library.mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pl.sda.library.mybatis.LibraryMapper">
+
+    <select id="countBooks" resultType="int">
+        select count(*) from book
+    </select>
+
+</mapper>

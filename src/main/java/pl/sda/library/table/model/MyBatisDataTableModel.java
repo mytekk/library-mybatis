@@ -1,22 +1,46 @@
 package pl.sda.library.table.model;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import pl.sda.library.model.Book;
 
 public class MyBatisDataTableModel extends CrudDataTableModel {
 
 	private static final long serialVersionUID = 1L;
 
+	private static final String NAMESPACE = "pl.sda.library.mybatis.LibraryMapper";
+
+	private SqlSessionFactory sqlSessionFactory;
+
 	public MyBatisDataTableModel() {
+
+		try {
+			InputStream inputStream = Resources
+					.getResourceAsStream("pl/sda/library/mybatis/mybatis-config.xml");
+			sqlSessionFactory = new SqlSessionFactoryBuilder()
+					.build(inputStream);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		filterByName("");
 	}
 
 	@Override
 	public int getRowCount() {
 		//TODO liczba książek
-		return getByName(filter).size();
+		SqlSession session = sqlSessionFactory.openSession();
+		int count = session.selectOne(NAMESPACE + ".countBooks");
+		session.close();
+		return count;
 	}
 
 	@Override
