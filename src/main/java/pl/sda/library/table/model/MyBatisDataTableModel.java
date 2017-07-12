@@ -23,7 +23,8 @@ public class MyBatisDataTableModel extends CrudDataTableModel {
 
 		try {
 			InputStream inputStream = Resources
-					.getResourceAsStream("pl/sda/library/mybatis/mybatis-config.xml");
+					.getResourceAsStream("mybatis-config.xml");
+
 			sqlSessionFactory = new SqlSessionFactoryBuilder()
 					.build(inputStream);
 		}

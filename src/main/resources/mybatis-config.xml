@@ -13,6 +13,7 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="pl/sda/library/pl.sda.library.mybatis/LibraryMapper.xml"/>
+        <!-- <mapper resource="pl/sda/library/pl.sda.library.mybatis/LibraryMapper.xml"/> -->
+        <mapper resource="LibraryMapper.xml"/>
     </mappers>
 </configuration>
