@@ -3,7 +3,7 @@
 <configuration>
     <environments default="development">
         <environment id="development">
-            <transactionManager type="JDBC"/>
+            <transactionManager type="JDBC"/> <!-- mybatis korzysta wewnetrz siebie z jdbc -->
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
                 <property name="url" value="jdbc:mysql://xxx/xxx?useSSL=false"/>
@@ -12,7 +12,7 @@
             </dataSource>
         </environment>
     </environments>
-    <mappers>
+    <mappers> <!-- pliki w ktorych definiuejmy zansze zapytania -->
         <!-- <mapper resource="pl/sda/library/pl.sda.library.mybatis/LibraryMapper.xml"/> -->
         <mapper resource="LibraryMapper.xml"/>
     </mappers>

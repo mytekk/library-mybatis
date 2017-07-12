@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//pl.sda.library.mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="pl.sda.library.mybatis.LibraryMapper">
+<mapper namespace="pl.sda.library.mybatis.LibraryMapper"> <!-- przestrzen nazw dla naszego mappera -->
 
-    <select id="countBooks" resultType="int">
+    <select id="countBooks" resultType="int"> <!-- wartosc zwracana -->
         select count(*) from book
     </select>
 
-    <select id="getBooks" resultType="pl.sda.library.model.Book">
-        select b.title,b.id,a.first_name as authorFirstName,
-        a.last_name as authorLastName from book as b
-        left join author as a on b.author_id = a.id
-    </select>
+    <select id="getBooks" resultType="pl.sda.library.model.Book"> <!-- to zapytanie zwroci nowy obiekt typu Book! -->
+        select b.title,b.id,a.first_name as authorFirstName,    <!-- pola zwracane w zapytaniu musza nazwac sie dokladnie tak samo -->
+        a.last_name as authorLastName from book as b           <!-- jak pola w klasie! jesli jakas kolumnanie zostanie podana -->
+        left join author as a on b.author_id = a.id           <!-- to zostanie dlaniej zastosowana wartosc z konstruktora -->
+    </select>                                                  <!-- o ile takowy istnieje i ustawia te kolumne -->
+                                                                 <!-- jesli zapytanie zwroci wiele wierszy, to dostaniemy liste obiektow Book -->
 
     <select id="getById" resultType="pl.sda.library.model.Book">
         select b.title,b.id,a.first_name as authorFirstName,
@@ -18,5 +19,41 @@
         left join author as a on b.author_id = a.id
         where b.id = #{id}
     </select>
+
+    <insert id="insertBook">
+        insert into book(title, author_id) values (#{title}, #{authorId})
+    </insert>
+
+    <insert id="insertAuthor" useGeneratedKeys="true" keyProperty="authorId" keyColumn="id">
+        <!-- keyKolumn zawiera nazwe kolumny, ktora chcemy odzyskac z zakonczonego inserta
+            keyProperty to nazwa pola w mapie parametrow, do ktorej (do mapy w Javie) zostanie dodana ta wartosc
+            useGeneratedKeys odpowiada zauruchomienie tej mozliwosci -->
+        insert into author(first_name, last_name) values (#{authorFirstName}, #{authorLastName})
+    </insert>
+
+    <select id="getAuthorId" resultType="int">
+        select author_id from book where id = #{id}
+    </select>
+
+    <update id="updateAuthor">
+        update author set first_name = #{authorFirstName}, last_name = #{authorLastName} where id = #{authorId}
+    </update>
+
+    <update id="updateBook">
+        update book set title = #{title} where id = #{id}
+    </update>
+
+    <update id="updateBookWithAuthor">
+        update book set title = #{title}, author_id = #{authorId} where id = #{id}
+    </update>
+
+    <delete id="deleteBook">
+        delete from book where id = #{id}
+    </delete>
+
+    <delete id="deleteBookCategory">
+        delete from book_category where book_id = #{id}
+    </delete>
+
 
 </mapper>
