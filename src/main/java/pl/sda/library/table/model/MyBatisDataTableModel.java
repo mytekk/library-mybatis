@@ -2,8 +2,10 @@ package pl.sda.library.table.model;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -71,13 +73,21 @@ public class MyBatisDataTableModel extends CrudDataTableModel {
 	@Override
 	public Book getById(int id) {
 		//TODO książka na podstawie id
-		return null;
+		SqlSession session = sqlSessionFactory.openSession();
+		Map<String,Object> mapa = new HashMap<>();
+		mapa.put("id", id);
+		Book book = session.selectOne(NAMESPACE+".getById",mapa);
+		session.close();
+		return book;
 	}
 
 	@Override
 	public List<Book> getByName(String name) {
 		//TODO książki na podstawie nazwy
-		return new LinkedList<>();
+		SqlSession session = sqlSessionFactory.openSession();
+		List<Book> listOfBooks = session.selectList(NAMESPACE+".getBooks");
+		session.close();
+		return listOfBooks;
 	}
 
 	@Override

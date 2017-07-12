@@ -6,4 +6,17 @@
         select count(*) from book
     </select>
 
+    <select id="getBooks" resultType="pl.sda.library.model.Book">
+        select b.title,b.id,a.first_name as authorFirstName,
+        a.last_name as authorLastName from book as b
+        left join author as a on b.author_id = a.id
+    </select>
+
+    <select id="getById" resultType="pl.sda.library.model.Book">
+        select b.title,b.id,a.first_name as authorFirstName,
+        a.last_name as authorLastName from book as b
+        left join author as a on b.author_id = a.id
+        where b.id = #{id}
+    </select>
+
 </mapper>
